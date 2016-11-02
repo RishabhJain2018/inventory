@@ -24,7 +24,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 	serializer_class = CategorySerializer
 
 	def get_queryset(self):
-		queryset = Category.objects.filter(status=1)
+		queryset = Category.objects.all()
 		return queryset
 
 	def create(self, request, *args, **kwargs):
@@ -33,4 +33,8 @@ class CategoryViewSet(viewsets.ModelViewSet):
 		self.perform_create(serializer)
 		return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+	def destroy(self, request, *args, **kwargs):
+		instance = self.get_object()
+		self.perform_destroy(instance)
+		return Response(status=status.HTTP_204_NO_CONTENT)
 
