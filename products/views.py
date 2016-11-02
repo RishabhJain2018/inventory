@@ -1,3 +1,40 @@
 from django.shortcuts import render
+from django.contrib.auth import get_user_model
 
-# Create your views here.
+from rest_framework import status
+from rest_framework import viewsets
+from rest_framework.response import Response
+
+from .serializers import (
+	UserSerializer,
+	CategorySerializer,
+	)
+from .models import Category
+
+
+User = get_user_model()
+
+class UserViewSet(viewsets.ModelViewSet):
+	queryset = User.objects.all()
+	serializer_class = UserSerializer
+
+
+class CategoryViewSet(viewsets.ModelViewSet):
+	queryset = Category.objects.all()
+	serializer_class = CategorySerializer
+
+	def get_queryset(self):
+		queryset = Category.objects.filter(status=1)
+		return queryset
+
+	def create(self, request, *args, **kwargs):
+		serializer = self.get_serializer(data=request.data)
+		print "s", serializer.is_valid()
+		serializer.is_valid(raise_exception=True)
+		print "2",serializer.errors
+		self.perform_create(serializer)
+		print "3"
+		headers = self.get_success_headers(serializer.data)
+		return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
