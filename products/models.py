@@ -4,11 +4,11 @@ from django.db import models
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
-    # status = models.IntegerField()
+    status = models.IntegerField(default=1)
 
 
-# class Stat(models.Model):
-#     Category_count = models.IntegerField()
+class Stat(models.Model):
+    category_count = models.IntegerField()
 
 
 # class Product(models.Model):
