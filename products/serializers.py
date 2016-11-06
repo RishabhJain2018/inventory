@@ -28,8 +28,8 @@ class ProductSerializer(serializers.ModelSerializer):
 	# 	queryset=Category.objects.all(),
 	# 	source='category',
 	# 	)
-	# category = CategorySerializer(read_only=True)
+	category = CategorySerializer()
 
 	class Meta:
 		model = Product
-		fields = ('id', 'name', 'category',)
+		# fields = ('id', 'name', 'category',)
