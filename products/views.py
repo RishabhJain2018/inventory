@@ -9,8 +9,9 @@ from .serializers import (
 	UserSerializer,
 	CategorySerializer,
 	StatSerializer,
+	ProductSerializer,
 	)
-from .models import Category, Stat
+from .models import Category, Stat, Product
 
 
 User = get_user_model()
@@ -25,7 +26,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 	serializer_class = CategorySerializer
 
 	def get_queryset(self):
-		queryset = Category.objects.filter(status=0)
+		queryset = Category.objects.filter(status=1)
 		return queryset
 
 	def create(self, request, *args, **kwargs):
@@ -54,3 +55,14 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class StatViewSet(viewsets.ReadOnlyModelViewSet):
 	queryset = Stat.objects.all()
 	serializer_class = StatSerializer
+
+
+class ProductViewSet(viewsets.ModelViewSet):
+	queryset = Product.objects.all()
+	serializer_class = ProductSerializer
+
+	def create(self, request, *args, **kwargs):
+		serializer = self.get_serializer(data=request.data)
+		serializer.is_valid(raise_exception=True)
+		self.perform_create(serializer)
+		return Response(serializer.data, status=status.HTTP_201_CREATED)

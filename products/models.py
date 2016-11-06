@@ -11,6 +11,6 @@ class Stat(models.Model):
     category_count = models.IntegerField()
 
 
-# class Product(models.Model):
-#     name = models.CharField(max_length=50)
-#     category = models.ForeignKey(Category)
+class Product(models.Model):
+    name = models.CharField(max_length=50)
+    category = models.ForeignKey(Category)

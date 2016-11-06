@@ -5,8 +5,8 @@ from django.conf.urls import url
 from products.views import (
 	UserViewSet,
 	CategoryViewSet,
-	# ProductViewSet,
-	StatViewSet
+	ProductViewSet,
+	StatViewSet,
 )
 
 router = routers.SimpleRouter()
@@ -26,8 +26,14 @@ router.register(
 router.register(
 	r'stats',
 	StatViewSet,
-	base_name='product'
+	base_name='stat'
 )
+
+router.register(
+	r'products',
+	ProductViewSet,
+	base_name='product'
+	)
 
 ListCreateMapper = {
 	'get':'list',
