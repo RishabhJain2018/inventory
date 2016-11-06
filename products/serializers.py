@@ -33,3 +33,9 @@ class ProductSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Product
 		# fields = ('id', 'name', 'category',)
+
+	def create(self, validated_data):
+		category_data = validated_data.pop('category')
+		category = Category.objects.get(**category_data)
+		product = Product.objects.create(category=category, **validated_data)
+		return product
